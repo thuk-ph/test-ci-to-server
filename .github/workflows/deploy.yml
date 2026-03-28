@@ -1,0 +1,18 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy index.html via SCP
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy-key
+          chmod 600 /tmp/deploy-key
+          scp -i /tmp/deploy-key -o StrictHostKeyChecking=no index.html root@152.42.202.85:/var/www/html/
+          rm /tmp/deploy-key
