@@ -36,13 +36,48 @@
             font-size: 0.85rem;
             color: #7ef28a;
         }
+        h1 { cursor: pointer; transition: transform 0.3s; }
+        h1:hover { transform: rotate(180deg); }
+        .comic-sans { font-family: "Comic Sans MS", cursive !important; }
+        .secret {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #333;
+            transition: color 0.3s;
+        }
+        .secret:hover { color: #ff6b6b; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Ulatroi</h1>
-        <p>Deployed with GitHub Actions CI/CD</p>
-        <span class="badge">Status: Live</span>
+        <h1 onclick="troll()" id="title">Ulatroi</h1>
+        <p id="subtitle">Deployed with GitHub Actions CI/CD</p>
+        <span class="badge" id="badge">Status: Live</span>
+        <p class="secret">hover me if you dare</p>
     </div>
+    <script>
+        let clicks = 0;
+        const msgs = [
+            "Stop clicking me",
+            "Seriously, stop",
+            "I'm warning you...",
+            "Fine. Comic Sans it is.",
+            "You brought this upon yourself",
+            "There is no going back now",
+        ];
+        function troll() {
+            clicks++;
+            document.getElementById("subtitle").textContent = msgs[Math.min(clicks - 1, msgs.length - 1)];
+            if (clicks === 4) document.body.classList.add("comic-sans");
+            if (clicks === 5) document.body.style.background = "hotpink";
+            if (clicks >= 6) document.getElementById("title").style.animation = "spin 0.2s linear infinite";
+            if (clicks >= 6 && !document.getElementById("spinStyle")) {
+                const s = document.createElement("style");
+                s.id = "spinStyle";
+                s.textContent = "@keyframes spin { to { transform: rotate(360deg); } }";
+                document.head.appendChild(s);
+            }
+        }
+    </script>
 </body>
 </html>
